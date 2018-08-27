@@ -12,21 +12,34 @@ pip install wget
 # pip install pygame SimpleCV
 
 cd /home/vagrant
-git clone https://github.com/richardingham/octopus.git
-git clone https://github.com/richardingham/octopus-editor-server.git
 
-echo "/home/vagrant/octopus" >> /usr/lib/python2.7/dist-packages/octopus.pth
-echo "/home/vagrant/octopus-editor-server" >> /usr/lib/python2.7/dist-packages/octopus-server.pth
-echo 'PATH="$PATH:$HOME/.local/bin"' > .profile
+if [ ! -d "octopus" ]
+then
+  git clone https://github.com/richardingham/octopus.git
+fi
+if [ ! -d "octopus-editor-server" ]
+then
+  git clone https://github.com/richardingham/octopus-editor-server.git
+fi
 
-cd octopus-editor-server
+cd /home/vagrant/octopus
+git pull
+
+cd /home/vagrant/octopus-editor-server
+git pull
 npm install
 node_modules/.bin/rollup -c
 
+echo "/home/vagrant/octopus" >> /usr/lib/python2.7/dist-packages/octopus.pth
+echo "/home/vagrant/octopus-editor-server" >> /usr/lib/python2.7/dist-packages/octopus-server.pth
+echo 'PATH="$PATH:$HOME/.local/bin"' > /home/vagrant/.profile
+
 cd /vagrant
-python ~/octopus-editor-server/initialise.py
-ln -s /home/vagrant/octopus-editor-server/templates/ templates
-ln -s /home/vagrant/octopus-editor-server/resources/ resources
+
+if [ ! -d "data" ]
+then
+  python /home/vagrant/octopus-editor-server/initialise.py
+fi
 
 if [ $(ls -A override_manufacturer/* 2>/dev/null) ]
 then

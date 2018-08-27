@@ -1,18 +1,13 @@
 [Unit]
 Description=Octopus Server
+After=multi-user.target
 
 [Service]
-ExecStart=/usr/local/bin/twistd \
-    --nodaemon \
-    --pidfile= \
-    --rundir=/vagrant \
-    octopus-editor --wshost 192.168.33.12
-
+Type=idle
+ExecStart=/usr/local/bin/twistd -n --pidfile= octopus-editor --wshost 192.168.33.12
 WorkingDirectory=/vagrant
-
 User=vagrant
 Group=vagrant
-
 Restart=always
 
 [Install]
