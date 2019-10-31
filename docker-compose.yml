@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    build: 
+      context: .
+      args:
+        OCTOPUS_REVISION: cabdf2cb9473a0d656df89d001fede029bceca61
+        EDITOR_REVISION: 5482126066ae5093d8b1abdff7662195653b0aa7
+    tty: true
+    ports:
+    - "8001:8001"
+    - "9000:9000"
+    - "4040:4040"
+    volumes:
+    - ./data:/app/data
